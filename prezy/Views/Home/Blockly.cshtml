@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Blockly";
+}
+@section Scripts{
+    <script src="~/Scripts/blockly/blockly_compressed.js"></script>
+    <script src="~/Scripts/blockly/blocks_compressed.js"></script>
+    <script src="~/Scripts/blockly/javascript_compressed.js"></script>
+    <script src="~/Scripts/blockly/blockdefinition.js"></script>
+    <script src="~/Scripts/blockly/fr.js"></script>
+    <script>
+        var workspace;
+
+        $(document).ready(function () {
+
+
+            workspace = Blockly.inject('blocklyDiv', { toolbox: document.getElementById('toolbox') });
+
+
+        });
+
+        function Send() {
+            console.log("Sending...");
+            var xml = Blockly.Xml.workspaceToDom(workspace);
+
+            console.log(xml);
+        };
+
+        function SendXmlToServer() {
+            var xml = Blockly.Xml.workspaceToDom(workspace);
+            xml = new XMLSerializer().serializeToString(xml);
+            $.ajax({
+                url: "/Home/XmlData",
+                type: "POST",
+                data: { xmlModel: xml },
+                success: function (data) { alert("OK") }
+            });
+
+        };
+
+    </script>
+    
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p class="lead">@ViewBag.Message</p>
+</div>
+<div class="row">
+    <div id="blocklyDiv" style="height: 580px; width: 900px;"></div>
+    <xml id="toolbox" style="display: none">
+        <block type="scene"></block>
+        <block type="sceneactions"></block>        
+        <block type="powerpoint"></block>
+        <block type="audio"></block>
+        <block type="video"></block>
+        <block type="display"></block>
+        <block type="sound"></block>
+    </xml>
+</div>
+<div class="row">
+    <a class="btn btn-default" onclick="SendXmlToServer()">Send</a>
+</div>

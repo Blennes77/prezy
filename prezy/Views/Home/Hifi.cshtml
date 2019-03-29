@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Hifi";
+}
+
+@section Scripts{
+    <script>
+        function PowerOn() {
+            $.get("/Home/PowerOn", "");
+        }
+        function PowerOff() {
+            $.get("/Home/PowerOff", "");
+        }
+        function SelectCd() {
+            $.get("/Home/SelectCd", "");
+        }
+        function SelectTuner() {
+            $.get("/Home/SelectTuner", "");
+        }
+        function SelectServer() {
+            $.get("/Home/SelectServer", "");
+        }
+    </script>
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+    <p class="lead">@ViewBag.Message</p>
+</div>
+<div class="row">
+    <input type="button" onclick="PowerOn()" value="POWER ON" class="bg-primary" />
+    <input type="button" onclick="PowerOff()" value="POWER OFF" class="bg-primary" />
+</div>
+<div class="row">
+    <input type="button" onclick="SelectCd()" value="CD" class="bg-primary" />
+    <input type="button" onclick="SelectTuner()" value="TUNER" class="bg-primary" />
+    <input type="button" onclick="SelectServer()" value="SERVER" class="bg-primary" />
+</div>
