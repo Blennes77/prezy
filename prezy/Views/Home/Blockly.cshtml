@@ -4,10 +4,10 @@
 }
 @section Scripts{
     <script src="~/Scripts/blockly/blockly_compressed.js"></script>
+    <script src="~/Scripts/blockly/javascript_compressed.js"></script> <!-- code generator js -->
     <script src="~/Scripts/blockly/blocks_compressed.js"></script>
-    <script src="~/Scripts/blockly/javascript_compressed.js"></script>
-    <script src="~/Scripts/blockly/blockdefinition.js"></script>
-    <script src="~/Scripts/blockly/fr.js"></script>
+    <script src="~/Scripts/blockly/blockdefinition.js"></script> <!-- custom definitions blocks -->
+    <script src="~/Scripts/blockly/fr.js"></script> <!-- ressources fr -->
     <script>
         var workspace;
 
@@ -15,8 +15,24 @@
 
 
             workspace = Blockly.inject('blocklyDiv', { toolbox: document.getElementById('toolbox') });
+            Blockly.JavaScript['scene'] = function (block) {
+                // String or array length.
+                var argument0 = block.getFieldValue('SCENE_NAME');
+                return 'alert("' + argument0 + '");';
+            };
 
+            Blockly.JavaScript['powerpoint'] = function (block) {
+                // String or array length.
+                var argument0 = block.getFieldValue('POWERPOINT_NAME');
+                return 'alert("' + argument0 + '");';
+            };
 
+            //var test = Blockly.getFieldValue('POWERPOINT_NAME');
+            //test.showEditor_(() => alert("Intercepted"));
+            //let fileInput = new Blockly.FieldTextInput('** CHOOSE A FILE **')
+            //fileInput.showEditor_ = (() => alert("Intercepted"))
+            //var test = Blockly.Blocks['powerpoint'].block.getFieldValue('POWERPOINT_NAME');
+            //test.showEditor_ = (() => alert("Intercepted"));
         });
 
         function Send() {
@@ -38,8 +54,23 @@
 
         };
 
+        function GenerateCode() {
+            //TODO
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            try {
+                eval(code);
+            } catch (e) {
+                alert(e);
+            }
+        };
+
+        function GenerateZip() {
+            //TODO
+            alert("Not implented yet."+this.value);
+        };
+
     </script>
-    
+
 }
 
 <div class="jumbotron">
@@ -50,7 +81,7 @@
     <div id="blocklyDiv" style="height: 580px; width: 900px;"></div>
     <xml id="toolbox" style="display: none">
         <block type="scene"></block>
-        <block type="sceneactions"></block>        
+        <block type="sceneactions"></block>
         <block type="powerpoint"></block>
         <block type="audio"></block>
         <block type="video"></block>
@@ -59,5 +90,8 @@
     </xml>
 </div>
 <div class="row">
-    <a class="btn btn-default" onclick="SendXmlToServer()">Send</a>
+    <a class="btn btn-default" onclick="SendXmlToServer()">Execute</a>
+    <a class="btn btn-default" onclick="GenerateCode()">Generate code</a>
+    <a class="btn btn-default" onclick="GenerateZip()">Generate zip</a>
+    <input type="file" id="theFile" />
 </div>

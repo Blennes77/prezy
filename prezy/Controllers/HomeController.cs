@@ -104,6 +104,11 @@ namespace prezy.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult XmlData(string xmlModel)
         {
+            // TODO:
+            // Réception d'un fichier ZIP avec à l'intérieur, le fichier xml du scénario, les fichiers ppt, avi, mp4, mp3, etc...
+
+            // A partir d'ici, tout ce qui suit est du code à déporter dans une autre classe
+            // il devra être executé sur une action reçu depuis SignalR
             // Create a parser
             var parser = new Parser();
 
